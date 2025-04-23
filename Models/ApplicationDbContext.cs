@@ -49,7 +49,14 @@ namespace Haven.Models
                 .OnDelete(DeleteBehavior.Cascade);  // Optional: Specify delete behavior
 
 
-        }
+
+            modelBuilder.Entity<Concession>().HasData(
+               new Concession { ItemID = 1, ItemName = "Popcorn", Cost = 6.99 },
+               new Concession { ItemID = 2, ItemName = "Soda", Cost = 4.58 },
+               new Concession { ItemID = 3, ItemName = "Candy", Cost = 3.40 }
+            );
+
+        }//End of OnModelCreate
 
 
     }
