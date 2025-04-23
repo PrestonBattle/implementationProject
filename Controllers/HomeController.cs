@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using Haven.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ThriveHaven.Controllers
+namespace Haven.Controllers
 {
     public class HomeController : Controller
     {
+      
         public IActionResult Index()
         {
             return View();
         }
+
+      
+
+
+
+
+
+
+
+
     }
 }

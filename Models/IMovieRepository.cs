@@ -1,6 +1,7 @@
-﻿namespace ThriveHaven.Models
+﻿namespace Haven.Models
 {
-    public class IMovieRepository
+    public interface IMovieRepository
     {
+        IEnumerable<Movie> Movies { get; }
     }
 }
