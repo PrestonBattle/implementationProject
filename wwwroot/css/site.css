@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.banner-container {
+    position: relative;
+    background-image: url('/Images/movieStock.jpg'); 
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    filter: blur(0px); 
+    overflow: hidden;
+}
+
+    .banner-container::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(4px); 
+        background-color: rgba(0, 0, 0, 0.5); 
+        z-index: 1;
+    }
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
