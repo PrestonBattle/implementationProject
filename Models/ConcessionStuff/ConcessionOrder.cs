@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using ThriveHavenMovies.Models.CartStuff;
 
-namespace Haven.Models.ConcessionStuff
+namespace ThriveHavenMovies.Models.ConcessionStuff
 {
     public class ConcessionOrder
     {
@@ -10,17 +11,22 @@ namespace Haven.Models.ConcessionStuff
         public int OrderID { get; set; }
 
 
-        public int CartID { get; set; }
-        [ForeignKey("CartID")]
-        public Cart Cart { get; set; }  // Navigation property to Cart
+        public int? CartID { get; set; }
 
-        [ForeignKey("Concession")]
+        [ForeignKey("CartID")]
+        public Cart Cart { get; set; }
+
         public int ItemID { get; set; }
-        
+
+        [ForeignKey("ItemID")]
+       
+        public Concession Concession { get; set; }
         public int Quantity { get; set; }
 
-        
-        public Concession Concession { get; set; }  // Navigation property to Concession
+         public int? UserOrderId { get; set; }
 
-    }//End of class ConcessionOrder
+        [ForeignKey("UserOrderId")]
+        public Order Order { get; set; }
+
+    }
 }
