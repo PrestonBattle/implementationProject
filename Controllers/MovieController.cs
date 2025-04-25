@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Haven.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using ThriveHavenMovies.Models.MovieStuff;
 
-namespace Haven.Controllers
+namespace ThriveHavenMovies.Controllers
 {
-    public class MovieController:Controller
+    public class MovieController : Controller
     {
         private IMovieRepository repository;
         public int PageSizes = 3;
@@ -22,6 +18,6 @@ namespace Haven.Controllers
         {
             return View();
         }
-       
+
     }
 }
