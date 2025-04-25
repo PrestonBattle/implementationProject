@@ -1,0 +1,71 @@
+﻿@using ThriveHavenMovies.Models.MovieStuff
+@model Movie
+
+@{
+    var today = DateTime.Today;
+    var weekDates = Enumerable.Range(0, 7)
+                              .Select(offset => today.AddDays(offset))
+                              .ToList();
+}
+
+<div class="container mt-5">
+
+    <div class="jumbotron">
+        <h1 class="display-4">Buy Tickets for: @Model.Name</h1>
+    </div>
+    <hr class="my-4">
+    <div></div>
+    
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow" />
+        </div>
+
+        <div class="col-md-8">
+            <p><strong>Genre:</strong> @Model.Genre</p>
+            <p><strong>Rating:</strong> @Model.Rating</p>
+            <p><strong>TimeFrame:</strong> @Model.TimeFrame</p>
+            <p><strong>Cost:</strong> $10</p>
+
+            <form asp-action="AddTicket" method="post">
+                <input type="hidden" name="movieId" value="@Model.MovieID" />
+
+                <div class="mb-3">
+                    <label for="quantitySelect" class="form-label"><strong>Quantity:</strong></label>
+                    <select id="quantitySelect" class="form-select" name="Quantity" style="background-color:lightgray">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Showtimes</h5>
+
+                    <label for="dateSelect" class="form-label" style="color:black">Select Date:</label>
+                    <select id="dateSelect" class="form-select mb-3" name="selectedDate" style="background-color:lightgray">
+                        @foreach (var date in weekDates)
+                        {
+                            <option value="@date.ToString("yyyy-MM-dd")">
+                                @date.ToString("dddd, MMMM dd, yyyy")
+                            </option>
+                        }
+                    </select>
+
+                    <label for="timeSelect" class="form-label" style="color:black">Select Time:</label>
+                    <select id="timeSelect" class="form-select mb-3" name="selectedTime" style="background-color:lightgray">
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="10:00 PM">10:00 PM</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Add Ticket To Cart</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

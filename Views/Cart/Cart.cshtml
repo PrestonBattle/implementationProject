@@ -1,5 +1,188 @@
-﻿@*
+﻿@using ThriveHavenMovies.Models.CartStuff
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
+@model CartViewModel
+
+
+
+
+<div class="jumbotron">
+    <h1 class="display-4">Shopping Cart</h1>
+    <hr class="my-4">
+    <div class="card" style="width: 36rem;">
+
+
+
+
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="card-title mb-0">@Model.totalItems Items Currently in your cart</h5>
+                    @if (@Model.totalItems != 0){
+                        <p class="card-title mb-0">Current Cart Balance: $@Model.TotalCost</p>
+                        <p class="card-title mb-0">Ready to checkout?</p>
+                    }
+                </div>
+                @if (@Model.totalItems != 0)
+                {
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        Checkout
+                    </button>
+                }
+
+                <!--Modal for checkout-->
+                <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Checkout</h5>
+
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                    <div class="mb-3">
+                                        <label>Card Name</label>
+                                        <input type="text" name="CardName" class="form-control" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Name on Card</label>
+                                        <input type="text" name="nameOnCard" class="form-control" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Card Number</label>
+                                        <input type="text" name="CardNumber" class="form-control" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Expiration Date</label>
+                                        <input type="text" name="ExpirationDate" class="form-control" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>CVC</label>
+                                        <input type="text" name="Cvc" class="form-control" />
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" name="IsDefault" />
+                                        <label class="form-check-label">Save as default payment method</label>
+                                    </div>
+
+                                <!--<button type="submit" class="btn btn-primary">Save Changes</button>-->
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form asp-action="ProcessOrder"  method="post" class="mt-3 mb-3">
+                                <button type="submit" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#successModal">
+                                    Checkout
+                                </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal for checkout-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div></div>
+<!--Order Summary-->
+@if (@Model.totalItems != 0)
+{
+    <h3 class="mb-3">Order Summary</h3>
+}
+
+
+@foreach(var ticket in Model.Tickets){
+
+    <div class="card" style="width: 36rem;">
+
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <img src="@ticket.Movie.ImageUrl" class="card-img-top fixed-img" alt="@ticket.Movie.Name" style="width: 150px; height: auto;">
+                </div>
+                <div>
+                    <h5 class="card-title mb-3">@ticket.Movie.Name</h5>
+                    <p class="card-text mb-3">@ticket.ticketDate at @ticket.ticketTime</p>
+                    <p class="card-text mb-3">ThriveHaven Movies, Jacksonville Beach</p>
+                    @if(ticket.Quantity == 1){
+                        <p class="card-text mb-0">Ticket(1)</p>
+                    }
+                    else{
+                        <p class="card-text mb-0">Tickets(@ticket.Quantity)</p>
+                    }
+                    <!--<i class="bi bi-pen mb-3"></i>-->
+                    
+                    <form asp-action="DeleteTicket" asp-route-id="@ticket.TicketId" method="post" class="mt-3 mb-3">
+                    <button type="submit" class="bi bi-trash mb-3"></button>
+                    </form>
+                    
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="mb-3"></div>
+}<!--End Tickets Display-->
+
+<!--Start Concessions-->
+@foreach (var concessionOrder in Model.ConcessionOrders)
+{
+    <div class="card" style="width: 36rem;">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <img src="@concessionOrder.Concession.ImageUrl" class="card-img-top fixed-img" alt="foodImage" style="width: 150px; height: auto;" />
+                </div>
+                <div>
+                    <h5 class="card-title mb-3">@concessionOrder.Concession.ItemName</h5>
+                    <p class="card-text mb-3">ThriveHaven Movies, Jacksonville Beach</p>
+                    @if (concessionOrder.Quantity == 1)
+                    {
+                        <p class="card-text mb-0">Order(1)</p>
+                    }
+                    else
+                    {
+                        <p class="card-text mb-0">Orders(@concessionOrder.Quantity)</p>
+                    }
+                    <!--<i class="bi bi-pen mb-3"></i>-->
+                    <form asp-action="DeleteConcessionOrder" asp-route-id="@concessionOrder.OrderID" method="post" class="mt-3 mb-3">
+                        <button type="submit" class="bi bi-trash mb-3"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3"></div>
+}
+<!--EndConcessions-->
+
+
+
+
+
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Thank You!</h5>
+            </div>
+            <div class="modal-body">
+                Your order has been placed successfully. <br />
+                
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("Index", "Home")" class="mb-3">Close</a>
+            </div>
+        </div>
+    </div>
+</div>

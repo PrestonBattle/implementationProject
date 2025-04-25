@@ -10,47 +10,59 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container">
-			<a class="navbar-brand" href="@Url.Action("Index", "Home")"> <img src="@Url.Content("~/Images/Logo/t.png")" alt="Thrive Haven Logo" style="height: 80px;" "   /></a>
-
-			<div class="position-absolute start-50 translate-middle-x">
-				<h4 class="m-0" style="color:indigo">THRIVE HAVEN CINEMA</h4>
-			</div>
-
+			<a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="~/Images/Logo/t.png" alt="Thrive Haven Logo" style="height: 80px;" /></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
+			
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto align-items-center">
-
+					<div class="position-absolute top-50 start-50 translate-middle">
+						<h2 class="m-0">
+							<a href="@Url.Action("Index", "Home")" class="text-center" style="color: indigo; text-decoration: none;">
+								THRIVE HAVEN CINEMA
+							</a>
+						</h2>
+					</div>
+					
 					<li class="nav-item">
-
-						<a class="nav-link" href="@Url.Action("List", "Movie")"> Movie </a>
+						<a class="nav-link" href="@Url.Action("List", "Movie")">Movies</a>
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link" href="@Url.Action("FoodandDrink", "Concession")">Food & Drinks</a>
+						<a class="nav-link" href="@Url.Action("Concessions", "Concessions")">Food & Drinks</a>
 					</li>
 
+					
+
 					<li class="nav-item">
-						<a class="nav-link" href="@Url.Action("Index", "Home")">Book An Event</a>
+						<a class="nav-link" href="@Url.Action("FAQ", "FAQ")">FAQs</a>
 					</li>
+
+					@if(User.Identity.IsAuthenticated){
+						<li class="nav-item">
+							<a class="nav-link bi-cart" href="@Url.Action("Cart", "Cart")"></a>
+						</li>
+					}
+
 
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-				@if (User.Identity.IsAuthenticated)
-				{
-								<li><a class="dropdown-item" href="@Url.Action("Preferences", "Account")">Account Preferences</a></li>
+							@if (User.Identity.IsAuthenticated)
+							{
+								<li><a class="dropdown-item" href="@Url.Action("Preferences", "Preferences")">Account Preferences</a></li>
 								<li><hr class="dropdown-divider" /></li>
 								<li><a class="dropdown-item" href="@Url.Action("Logout", "Account")">Log Out</a></li>
-				}
-				else
-				{
-					//	<li><a class="dropdown-item" href="@Url.Action("CreateAccount", "CreateAccount")">Create Account</a></li>
-								<li><a class="dropdown-item" href="@Url.Action("Login", "Login")">Log In</a></li>
-				}
+							}
+							else
+							{
+								<li><a class="dropdown-item" href="@Url.Action("Register", "Account")">Create Account</a></li>
+								<li><a class="dropdown-item" href="@Url.Action("Login", "Account")">Log In</a></li>
+							}
 						</ul>
 					</li>
 
@@ -60,11 +72,10 @@
 	</nav>
 
 	<div class="container mt-4">
-				@RenderBody()
+		@RenderBody()
+		@RenderSection("Scripts", required: false)
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
